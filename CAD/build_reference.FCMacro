@@ -1,0 +1,173 @@
+"""Build the reference assembly with FreeCAD, without changing the author's STL."""
+import json
+import os
+from pathlib import Path
+
+import FreeCAD as App
+import Import
+import Mesh
+import Part
+
+
+def add_text(obj, name, value):
+    obj.addProperty('App::PropertyString', name, 'Provenance')
+    setattr(obj, name, value)
+
+
+def build(root):
+    data = json.loads((root / 'CAD/reference-parts.json').read_text())
+    parts = {item['id']: item for item in data['parts']}
+    output = root / 'CAD/reference'
+    output.mkdir(exist_ok=True)
+    doc = App.newDocument('OctopusReference')
+    assembly = doc.addObject('App::Part', 'ReferenceAssembly')
+    assembly.Label = 'Octopus reference layout - NOT fabrication ready'
+    add_text(assembly, 'Scope', data['scope'])
+    add_text(assembly, 'MissingWork', 'Measured mounts, joints, tendon routing, return mechanism, harness and actuator validation')
+    original = doc.addObject('App::Part', 'AuthorGeometry')
+    original.Label = 'Author geometry - faceted STL-derived solids, mm'
+    assembly.addObject(original)
+    installed = doc.addObject('App::Part', 'RobotElectronics')
+    installed.Label = 'Proposed robot electronics - simplified envelopes'
+    assembly.addObject(installed)
+    external = doc.addObject('App::Part', 'BenchComponents')
+    external.Label = 'External controls / supplies / unmounted reference pads'
+    assembly.addObject(external)
+    objects = []
+    records = []
+
+    mesh = Mesh.Mesh(str(root / 'CAD/octopus-2026-10-05.stl'))
+    components = mesh.getSeparateComponents()
+    if len(components) != 25:
+        raise ValueError('Expected one shell and 24 segment pieces; got ' + str(len(components)))
+    shell = None
+    for index, component in enumerate(components, 1):
+        if not component.isSolid():
+            raise ValueError('Original mesh component is not closed: ' + str(index))
+        shape = Part.Shape()
+        shape.makeShapeFromMesh(component.Topology, 0.001)
+        solid = Part.makeSolid(shape)
+        if solid.Volume < 0:
+            solid.reverse()
+        solid = solid.removeSplitter()
+        if not solid.isValid() or len(solid.Solids) != 1 or solid.Volume <= 0:
+            raise ValueError('Invalid converted solid: ' + str(index))
+        obj = doc.addObject('Part::Feature', 'OriginalPiece%02d' % index)
+        obj.Shape = solid
+        is_shell = component.BoundBox.ZLength > 60
+        obj.Label = 'M01 shell - author STL' if is_shell else 'M01 segment %02d - author STL' % index
+        add_text(obj, 'BOM_ID', 'M01')
+        add_text(obj, 'ModelBasis', 'Author STL; triangles converted to solid faces, not recovered parametric CAD')
+        original.addObject(obj)
+        objects.append(obj)
+        if is_shell:
+            shell = obj
+        if App.GuiUp:
+            obj.ViewObject.ShapeColor = (0.77, 0.79, 0.81) if is_shell else (0.28, 0.62, 0.65)
+            obj.ViewObject.DisplayMode = 'Flat Lines'
+        records.append({'name': obj.Name, 'label': obj.Label, 'bom_id': 'M01', 'volume_mm3': solid.Volume})
+    if shell is None:
+        raise ValueError('Could not identify shell')
+
+    def envelope(part_id, suffix, location, dimensions=None, color=(0.25, 0.55, 0.35)):
+        item = parts[part_id]
+        dims = dimensions or item['dimensions_mm']
+        obj = doc.addObject('Part::Box', part_id + suffix)
+        obj.Label = part_id + ' ' + item['model'] + ' ' + suffix + ' - ENVELOPE'
+        obj.Length, obj.Width, obj.Height = dims
+        obj.Placement.Base = App.Vector(*location)
+        for name, value in [('BOM_ID', part_id), ('SupplierURL', item['url']),
+                            ('DimensionSource', item['dimension_url']),
+                            ('ModelBasis', item['dimension_basis']), ('Limitations', item['notes'])]:
+            add_text(obj, name, value)
+        objects.append(obj)
+        if App.GuiUp:
+            obj.ViewObject.ShapeColor = color
+            obj.ViewObject.DisplayMode = 'Flat Lines'
+        return obj
+
+    # This is packaging exploration. Positions do not define attachment hardware.
+    for index, location in enumerate([(-25, 70, 15), (0, 70, 15),
+                                      (-25, 90, 15), (0, 95, 15)], 1):
+        installed.addObject(envelope('E02', 'Servo%d' % index, location, color=(0.24, 0.31, 0.40)))
+    for index, location in enumerate([(10, 60, 45), (5, 60, 70)], 1):
+        installed.addObject(envelope('E01', 'Controller%d' % index, location))
+    brain = envelope('P01', 'ExternalBrain', (-35, 80, 99))
+    add_text(brain, 'PlacementNote', 'Above shell, not internally packaged; needs an external mount and protective enclosure')
+    installed.addObject(brain)
+    # Screen is outside the front wall. A mount/cutout is still needed.
+    installed.addObject(envelope('P02', 'Screen', (-48, 27, 38),
+                                 dimensions=[85, 7.9, 50], color=(0.08, 0.14, 0.18)))
+
+    for index, location in enumerate([(-185, 50, 0), (-185, 110, 0)], 1):
+        external.addObject(envelope('E03', 'Operator%d' % index, location, color=(0.43, 0.38, 0.45)))
+    for index, x in enumerate([-90, -65, -40, -15], 1):
+        external.addObject(envelope('E04', 'UnmountedPad%d' % index, (x, 230, 0), color=(0.74, 0.53, 0.17)))
+        external.addObject(envelope('E07', 'Resistor%d' % index, (x, 294, 0), color=(0.65, 0.45, 0.30)))
+    external.addObject(envelope('E05', 'ExternalServoSupply', (145, 40, 0), color=(0.28, 0.29, 0.32)))
+    external.addObject(envelope('E06', 'InputAdapter', (145, 100, 0), color=(0.18, 0.46, 0.35)))
+    external.addObject(envelope('P04', 'ExternalPiSupply', (145, 150, 0), color=(0.28, 0.29, 0.32)))
+    external.addObject(envelope('P03', 'StorageReference', (145, 192, 0), color=(0.18, 0.18, 0.20)))
+    doc.recompute()
+
+    interference = []
+    for obj in installed.Group:
+        volume = obj.Shape.common(shell.Shape).Volume
+        if volume > 0.01:
+            interference.append({'first': obj.Name, 'second': shell.Name, 'overlap_mm3': round(volume, 3)})
+    for i, first in enumerate(installed.Group):
+        for second in installed.Group[i + 1:]:
+            volume = first.Shape.common(second.Shape).Volume
+            if volume > 0.01:
+                interference.append({'first': first.Name, 'second': second.Name, 'overlap_mm3': round(volume, 3)})
+
+    for obj in objects:
+        if obj.Shape.isNull() or not obj.Shape.isValid() or not obj.Shape.Solids:
+            raise ValueError('Invalid export object: ' + obj.Name)
+        if obj.Name.startswith('OriginalPiece'):
+            continue
+        records.append({'name': obj.Name, 'label': obj.Label, 'bom_id': obj.BOM_ID,
+                        'volume_mm3': obj.Shape.Volume,
+                        'envelope_mm': [obj.Length.Value, obj.Width.Value, obj.Height.Value],
+                        'placement_mm': list(obj.Placement.Base)})
+
+    # Both files include every displayed physical reference component, not the cube/plane demo.
+    step = output / 'octopus-reference-assembly.step'
+    Import.export([assembly], str(step))
+    doc.recompute()
+    if App.GuiUp:
+        import FreeCADGui as Gui
+        Gui.activeDocument().activeView().viewAxonometric()
+        Gui.activeDocument().activeView().fitAll()
+    doc.saveAs(str(output / 'octopus-reference-assembly.FCStd'))
+
+    # Independently read STEP back and verify count, volume, bounds and solid validity.
+    exported = Part.read(str(step))
+    expected_volume = sum(obj.Shape.Volume for obj in objects)
+    expected_shape = Part.makeCompound([obj.Shape for obj in objects])
+    expected_bounds = expected_shape.BoundBox
+    actual_bounds = exported.BoundBox
+    bounds_error = max(abs(getattr(expected_bounds, key) - getattr(actual_bounds, key))
+                       for key in ['XMin', 'YMin', 'ZMin', 'XMax', 'YMax', 'ZMax'])
+    if len(exported.Solids) != len(objects) or not exported.isValid():
+        raise ValueError('STEP round-trip solid count or validity failed')
+    if abs(exported.Volume - expected_volume) > 0.01 or bounds_error > 0.001:
+        raise ValueError('STEP round-trip volume or bounds changed')
+    clearances = [(obj, obj.Shape.distToShape(shell.Shape)[0]) for obj in installed.Group]
+    contacts = [{'first': obj.Name, 'second': shell.Name, 'clearance_mm': distance}
+                for obj, distance in clearances if distance <= 0.001]
+    report = {'freecad_version': '.'.join(App.Version()[:3]), 'units': 'mm',
+              'original_components': len(components), 'exported_solids': len(exported.Solids),
+              'step_valid': exported.isValid(), 'volume_error_mm3': abs(exported.Volume - expected_volume),
+              'bounds_error_mm': bounds_error, 'packaging_interferences': interference,
+              'nominal_minimum_shell_clearance_mm': min(distance for obj, distance in clearances),
+              'surface_contacts': contacts,
+              'limitations': data['scope'], 'components': records}
+    (output / 'verification.json').write_text(json.dumps(report, indent=2) + '\n')
+    print('STEP verified:', len(exported.Solids), 'solids; packaging interferences:', len(interference))
+    return doc
+
+
+macro_path = Path(globals().get('__file__', 'CAD/build_reference.FCMacro')).resolve()
+repo = Path(os.environ.get('ISS_ASSISTANT_REPO', str(macro_path.parent.parent)))
+build(repo)

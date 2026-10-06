@@ -1,0 +1,519 @@
+{
+  "freecad_version": "1.1.4",
+  "units": "mm",
+  "original_components": 25,
+  "exported_solids": 47,
+  "step_valid": true,
+  "volume_error_mm3": 3.222143277525902e-06,
+  "bounds_error_mm": 5.7553961596568115e-12,
+  "packaging_interferences": [],
+  "nominal_minimum_shell_clearance_mm": 0.0,
+  "surface_contacts": [
+    {"first": "E01Controller1", "second": "OriginalPiece21", "clearance_mm": 0.0}
+  ],
+  "limitations": "Reference layout, not a fabrication-ready assembly",
+  "components": [
+    {
+      "name": "OriginalPiece01",
+      "label": "M01 segment 01 - author STL",
+      "bom_id": "M01",
+      "volume_mm3": 6811.334246135297
+    },
+    {
+      "name": "OriginalPiece02",
+      "label": "M01 segment 02 - author STL",
+      "bom_id": "M01",
+      "volume_mm3": 6811.334709548383
+    },
+    {
+      "name": "OriginalPiece03",
+      "label": "M01 segment 03 - author STL",
+      "bom_id": "M01",
+      "volume_mm3": 6811.3345932286675
+    },
+    {
+      "name": "OriginalPiece04",
+      "label": "M01 segment 04 - author STL",
+      "bom_id": "M01",
+      "volume_mm3": 6811.334251158286
+    },
+    {
+      "name": "OriginalPiece05",
+      "label": "M01 segment 05 - author STL",
+      "bom_id": "M01",
+      "volume_mm3": 6126.657194093384
+    },
+    {
+      "name": "OriginalPiece06",
+      "label": "M01 segment 06 - author STL",
+      "bom_id": "M01",
+      "volume_mm3": 6126.65664196917
+    },
+    {
+      "name": "OriginalPiece07",
+      "label": "M01 segment 07 - author STL",
+      "bom_id": "M01",
+      "volume_mm3": 6126.656655446528
+    },
+    {
+      "name": "OriginalPiece08",
+      "label": "M01 segment 08 - author STL",
+      "bom_id": "M01",
+      "volume_mm3": 6126.656835662519
+    },
+    {
+      "name": "OriginalPiece09",
+      "label": "M01 segment 09 - author STL",
+      "bom_id": "M01",
+      "volume_mm3": 6126.656908472606
+    },
+    {
+      "name": "OriginalPiece10",
+      "label": "M01 segment 10 - author STL",
+      "bom_id": "M01",
+      "volume_mm3": 6126.6570849309455
+    },
+    {
+      "name": "OriginalPiece11",
+      "label": "M01 segment 11 - author STL",
+      "bom_id": "M01",
+      "volume_mm3": 6126.656665106817
+    },
+    {
+      "name": "OriginalPiece12",
+      "label": "M01 segment 12 - author STL",
+      "bom_id": "M01",
+      "volume_mm3": 6126.657039943581
+    },
+    {
+      "name": "OriginalPiece13",
+      "label": "M01 segment 13 - author STL",
+      "bom_id": "M01",
+      "volume_mm3": 6126.656691690659
+    },
+    {
+      "name": "OriginalPiece14",
+      "label": "M01 segment 14 - author STL",
+      "bom_id": "M01",
+      "volume_mm3": 6126.656802590562
+    },
+    {
+      "name": "OriginalPiece15",
+      "label": "M01 segment 15 - author STL",
+      "bom_id": "M01",
+      "volume_mm3": 6126.65682401178
+    },
+    {
+      "name": "OriginalPiece16",
+      "label": "M01 segment 16 - author STL",
+      "bom_id": "M01",
+      "volume_mm3": 6126.657283813927
+    },
+    {
+      "name": "OriginalPiece17",
+      "label": "M01 segment 17 - author STL",
+      "bom_id": "M01",
+      "volume_mm3": 6126.657306800131
+    },
+    {
+      "name": "OriginalPiece18",
+      "label": "M01 segment 18 - author STL",
+      "bom_id": "M01",
+      "volume_mm3": 6126.6576826745095
+    },
+    {
+      "name": "OriginalPiece19",
+      "label": "M01 segment 19 - author STL",
+      "bom_id": "M01",
+      "volume_mm3": 6126.657023681872
+    },
+    {
+      "name": "OriginalPiece20",
+      "label": "M01 segment 20 - author STL",
+      "bom_id": "M01",
+      "volume_mm3": 6126.657049849214
+    },
+    {
+      "name": "OriginalPiece21",
+      "label": "M01 shell - author STL",
+      "bom_id": "M01",
+      "volume_mm3": 268201.6883348322
+    },
+    {
+      "name": "OriginalPiece22",
+      "label": "M01 segment 22 - author STL",
+      "bom_id": "M01",
+      "volume_mm3": 3910.584164562495
+    },
+    {
+      "name": "OriginalPiece23",
+      "label": "M01 segment 23 - author STL",
+      "bom_id": "M01",
+      "volume_mm3": 3910.584140005765
+    },
+    {
+      "name": "OriginalPiece24",
+      "label": "M01 segment 24 - author STL",
+      "bom_id": "M01",
+      "volume_mm3": 3910.5840555192653
+    },
+    {
+      "name": "OriginalPiece25",
+      "label": "M01 segment 25 - author STL",
+      "bom_id": "M01",
+      "volume_mm3": 3910.583993722612
+    },
+    {
+      "name": "E02Servo1",
+      "label": "E02 TowerPro MG90D; Adafruit 1143 Servo1 - ENVELOPE",
+      "bom_id": "E02",
+      "volume_mm3": 7927.560000000001,
+      "envelope_mm": [
+        22.8,
+        12.2,
+        28.5
+      ],
+      "placement_mm": [
+        -25.0,
+        70.0,
+        15.0
+      ]
+    },
+    {
+      "name": "E02Servo2",
+      "label": "E02 TowerPro MG90D; Adafruit 1143 Servo2 - ENVELOPE",
+      "bom_id": "E02",
+      "volume_mm3": 7927.560000000001,
+      "envelope_mm": [
+        22.8,
+        12.2,
+        28.5
+      ],
+      "placement_mm": [
+        0.0,
+        70.0,
+        15.0
+      ]
+    },
+    {
+      "name": "E02Servo3",
+      "label": "E02 TowerPro MG90D; Adafruit 1143 Servo3 - ENVELOPE",
+      "bom_id": "E02",
+      "volume_mm3": 7927.560000000001,
+      "envelope_mm": [
+        22.8,
+        12.2,
+        28.5
+      ],
+      "placement_mm": [
+        -25.0,
+        90.0,
+        15.0
+      ]
+    },
+    {
+      "name": "E02Servo4",
+      "label": "E02 TowerPro MG90D; Adafruit 1143 Servo4 - ENVELOPE",
+      "bom_id": "E02",
+      "volume_mm3": 7927.560000000001,
+      "envelope_mm": [
+        22.8,
+        12.2,
+        28.5
+      ],
+      "placement_mm": [
+        0.0,
+        95.0,
+        15.0
+      ]
+    },
+    {
+      "name": "E01Controller1",
+      "label": "E01 Espressif ESP32-S3-DevKitC-1-N8R8 Controller1 - ENVELOPE",
+      "bom_id": "E01",
+      "volume_mm3": 19123.152,
+      "envelope_mm": [
+        25.4,
+        62.74,
+        12.0
+      ],
+      "placement_mm": [
+        10.0,
+        60.0,
+        45.0
+      ]
+    },
+    {
+      "name": "E01Controller2",
+      "label": "E01 Espressif ESP32-S3-DevKitC-1-N8R8 Controller2 - ENVELOPE",
+      "bom_id": "E01",
+      "volume_mm3": 19123.152,
+      "envelope_mm": [
+        25.4,
+        62.74,
+        12.0
+      ],
+      "placement_mm": [
+        5.0,
+        60.0,
+        70.0
+      ]
+    },
+    {
+      "name": "P01ExternalBrain",
+      "label": "P01 Raspberry Pi Zero 2 W ExternalBrain - ENVELOPE",
+      "bom_id": "P01",
+      "volume_mm3": 23400.0,
+      "envelope_mm": [
+        65.0,
+        30.0,
+        12.0
+      ],
+      "placement_mm": [
+        -35.0,
+        80.0,
+        99.0
+      ]
+    },
+    {
+      "name": "P02Screen",
+      "label": "P02 Adafruit 1770 ILI9341 2.8 inch breakout Screen - ENVELOPE",
+      "bom_id": "P02",
+      "volume_mm3": 33574.99999999999,
+      "envelope_mm": [
+        85.0,
+        7.9,
+        50.0
+      ],
+      "placement_mm": [
+        -48.0,
+        27.0,
+        38.0
+      ]
+    },
+    {
+      "name": "E03Operator1",
+      "label": "E03 Adafruit 512 analog joystick kit Operator1 - ENVELOPE",
+      "bom_id": "E03",
+      "volume_mm3": 46088.61749999999,
+      "envelope_mm": [
+        38.1,
+        38.1,
+        31.75
+      ],
+      "placement_mm": [
+        -185.0,
+        50.0,
+        0.0
+      ]
+    },
+    {
+      "name": "E03Operator2",
+      "label": "E03 Adafruit 512 analog joystick kit Operator2 - ENVELOPE",
+      "bom_id": "E03",
+      "volume_mm3": 46088.61749999999,
+      "envelope_mm": [
+        38.1,
+        38.1,
+        31.75
+      ],
+      "placement_mm": [
+        -185.0,
+        110.0,
+        0.0
+      ]
+    },
+    {
+      "name": "E04UnmountedPad1",
+      "label": "E04 Alpha MF01A-N-221-A01; Adafruit 166 UnmountedPad1 - ENVELOPE",
+      "bom_id": "E04",
+      "volume_mm3": 619.9939199999999,
+      "envelope_mm": [
+        18.33,
+        60.4,
+        0.56
+      ],
+      "placement_mm": [
+        -90.0,
+        230.0,
+        0.0
+      ]
+    },
+    {
+      "name": "E07Resistor1",
+      "label": "E07 10 kilohm axial resistors; one pack Resistor1 - ENVELOPE",
+      "bom_id": "E07",
+      "volume_mm3": 72.0,
+      "envelope_mm": [
+        3.0,
+        8.0,
+        3.0
+      ],
+      "placement_mm": [
+        -90.0,
+        294.0,
+        0.0
+      ]
+    },
+    {
+      "name": "E04UnmountedPad2",
+      "label": "E04 Alpha MF01A-N-221-A01; Adafruit 166 UnmountedPad2 - ENVELOPE",
+      "bom_id": "E04",
+      "volume_mm3": 619.9939199999999,
+      "envelope_mm": [
+        18.33,
+        60.4,
+        0.56
+      ],
+      "placement_mm": [
+        -65.0,
+        230.0,
+        0.0
+      ]
+    },
+    {
+      "name": "E07Resistor2",
+      "label": "E07 10 kilohm axial resistors; one pack Resistor2 - ENVELOPE",
+      "bom_id": "E07",
+      "volume_mm3": 72.0,
+      "envelope_mm": [
+        3.0,
+        8.0,
+        3.0
+      ],
+      "placement_mm": [
+        -65.0,
+        294.0,
+        0.0
+      ]
+    },
+    {
+      "name": "E04UnmountedPad3",
+      "label": "E04 Alpha MF01A-N-221-A01; Adafruit 166 UnmountedPad3 - ENVELOPE",
+      "bom_id": "E04",
+      "volume_mm3": 619.9939199999999,
+      "envelope_mm": [
+        18.33,
+        60.4,
+        0.56
+      ],
+      "placement_mm": [
+        -40.0,
+        230.0,
+        0.0
+      ]
+    },
+    {
+      "name": "E07Resistor3",
+      "label": "E07 10 kilohm axial resistors; one pack Resistor3 - ENVELOPE",
+      "bom_id": "E07",
+      "volume_mm3": 72.0,
+      "envelope_mm": [
+        3.0,
+        8.0,
+        3.0
+      ],
+      "placement_mm": [
+        -40.0,
+        294.0,
+        0.0
+      ]
+    },
+    {
+      "name": "E04UnmountedPad4",
+      "label": "E04 Alpha MF01A-N-221-A01; Adafruit 166 UnmountedPad4 - ENVELOPE",
+      "bom_id": "E04",
+      "volume_mm3": 619.9939199999999,
+      "envelope_mm": [
+        18.33,
+        60.4,
+        0.56
+      ],
+      "placement_mm": [
+        -15.0,
+        230.0,
+        0.0
+      ]
+    },
+    {
+      "name": "E07Resistor4",
+      "label": "E07 10 kilohm axial resistors; one pack Resistor4 - ENVELOPE",
+      "bom_id": "E07",
+      "volume_mm3": 72.0,
+      "envelope_mm": [
+        3.0,
+        8.0,
+        3.0
+      ],
+      "placement_mm": [
+        -15.0,
+        294.0,
+        0.0
+      ]
+    },
+    {
+      "name": "E05ExternalServoSupply",
+      "label": "E05 5 V 4 A supply; Adafruit 1466 ExternalServoSupply - ENVELOPE",
+      "bom_id": "E05",
+      "volume_mm3": 160000.0,
+      "envelope_mm": [
+        100.0,
+        50.0,
+        32.0
+      ],
+      "placement_mm": [
+        145.0,
+        40.0,
+        0.0
+      ]
+    },
+    {
+      "name": "E06InputAdapter",
+      "label": "E06 2.1 mm jack to terminal block; Adafruit 368 InputAdapter - ENVELOPE",
+      "bom_id": "E06",
+      "volume_mm3": 7875.0,
+      "envelope_mm": [
+        15.0,
+        35.0,
+        15.0
+      ],
+      "placement_mm": [
+        145.0,
+        100.0,
+        0.0
+      ]
+    },
+    {
+      "name": "P04ExternalPiSupply",
+      "label": "P04 Separate 5 V 2 A supply; Adafruit 276 ExternalPiSupply - ENVELOPE",
+      "bom_id": "P04",
+      "volume_mm3": 72000.0,
+      "envelope_mm": [
+        60.0,
+        40.0,
+        30.0
+      ],
+      "placement_mm": [
+        145.0,
+        150.0,
+        0.0
+      ]
+    },
+    {
+      "name": "P03StorageReference",
+      "label": "P03 32 GB microSD card allowance StorageReference - ENVELOPE",
+      "bom_id": "P03",
+      "volume_mm3": 165.0,
+      "envelope_mm": [
+        11.0,
+        15.0,
+        1.0
+      ],
+      "placement_mm": [
+        145.0,
+        192.0,
+        0.0
+      ]
+    }
+  ]
+}

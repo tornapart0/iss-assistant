@@ -2,3 +2,5 @@ build/
 *.blend1
 *.blend2
 .DS_Store
+*.FCStd1
+*.FCBak
