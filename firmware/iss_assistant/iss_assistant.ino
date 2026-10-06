@@ -1,17 +1,28 @@
 #include <Arduino.h>
 
-// Draft for classic ESP32 DevKit and Arduino-ESP32 3.x.
+// Draft for ESP32-S3 or classic ESP32 DevKit and Arduino-ESP32 3.x.
 // One positional servo controls gripper closure, not the four bending tendons.
-// Joystick powered by 3.3 V: X -> GPIO34, Y -> GPIO35, switch -> GPIO27/GND.
-// Analog FSR divider: 3.3 V -> FSR -> GPIO32 -> 10k resistor -> GND.
+// Pin assignments are selected below for each supported chip.
+// Analog FSR divider: 3.3 V -> FSR -> FORCE_PIN -> 10k resistor -> GND.
 // More force must increase the ADC reading. This is not a load-cell driver.
 // Servo signal -> GPIO18. Use its rated external supply and a common ground.
 // Keep sensor voltages <= 3.3 V. Set limits with the tendon disconnected first.
+#if CONFIG_IDF_TARGET_ESP32S3
+constexpr int JOY_X = 4;
+constexpr int JOY_Y = 5;
+constexpr int JOY_BUTTON = 7;
+constexpr int FORCE_PIN = 6;
+#elif CONFIG_IDF_TARGET_ESP32
 constexpr int JOY_X = 34;
 constexpr int JOY_Y = 35;
 constexpr int JOY_BUTTON = 27;
 constexpr int FORCE_PIN = 32;
+#else
+#error "Select ESP32S3 Dev Module or ESP32 Dev Module."
+#endif
 constexpr int SERVO_PIN = 18;
+constexpr int PWM_BITS = 14;
+constexpr uint32_t PWM_MAX = (1UL << PWM_BITS) - 1;
 constexpr bool HARDWARE_CONFIGURED = false; // Set true after checking wiring/limits.
 constexpr int OPEN_US = 1200;
 constexpr int CLOSED_US = 1800; // Must be calibrated to the actual linkage.
@@ -28,7 +39,7 @@ uint32_t lastTick = 0;
 uint32_t lastReport = 0;
 
 bool writeServo(int pulseUs) {
-  const uint32_t duty = uint32_t(pulseUs) * 65535UL / 20000UL;
+  const uint32_t duty = uint32_t(pulseUs) * PWM_MAX / 20000UL;
   return ledcWrite(SERVO_PIN, duty);
 }
 
@@ -55,7 +66,7 @@ void setup() {
     Serial.println("Joystick calibration failed; servo disabled.");
     while (true) delay(1000);
   }
-  if (!ledcAttach(SERVO_PIN, 50, 16) || !writeServo(servoUs)) {
+  if (!ledcAttach(SERVO_PIN, 50, PWM_BITS) || !writeServo(servoUs)) {
     Serial.println("Servo PWM initialization failed.");
     ledcDetach(SERVO_PIN);
     while (true) delay(1000);
